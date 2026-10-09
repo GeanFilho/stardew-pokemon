@@ -1,77 +1,77 @@
 import { Component } from '@angular/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
+
+const SPRITES = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <header class="hero">
-      <p class="tag">Mod para Stardew Valley 1.6</p>
-      <h1>Pelipper Town</h1>
-      <p class="lead">Pokémon na sua fazenda: capture, treine, batalhe e crie Pokémon pelo Vale.</p>
-      <a class="btn" href="https://www.nexusmods.com/stardewvalley/mods/50344" target="_blank" rel="noopener">
-        Baixar no Nexus Mods
-      </a>
-    </header>
-
-    <main>
-      <section>
-        <h2>O que o mod faz</h2>
-        <ul class="cards">
-          @for (f of features; track f.title) {
-            <li><h3>{{ f.title }}</h3><p>{{ f.text }}</p></li>
-          }
-        </ul>
-      </section>
-
-      <section>
-        <h2>Requisitos</h2>
-        <ul>
-          <li>Stardew Valley 1.6</li>
-          <li>SMAPI 4.0+</li>
-          <li>SpaceCore 1.28.4+</li>
-        </ul>
-        <p>Funciona em saves novos ou já existentes, solo ou multiplayer.</p>
-      </section>
-
-      <section>
-        <h2>Outros mods Pokémon</h2>
-        <ul class="cards">
-          @for (m of others; track m.name) {
-            <li><h3><a [href]="m.url" target="_blank" rel="noopener">{{ m.name }}</a></h3><p>{{ m.text }}</p></li>
-          }
-        </ul>
-      </section>
-    </main>
-
-    <footer>Fan page não oficial. Stardew Valley © ConcernedApe · Pokémon © Nintendo/Game Freak.</footer>
-  `,
-  styles: `
-    :host { display: block; font-family: system-ui, sans-serif; color: #3b2a1a; background: #fdf6e3; min-height: 100vh; }
-    .hero { text-align: center; padding: 5rem 1rem; background: linear-gradient(#7ec8e3, #b8e994); }
-    .tag { text-transform: uppercase; letter-spacing: .1em; font-size: .8rem; }
-    h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); margin: .5rem 0; color: #c0392b; text-shadow: 3px 3px 0 #ffd23f; }
-    .lead { font-size: 1.2rem; max-width: 40ch; margin: 0 auto 2rem; }
-    .btn { display: inline-block; padding: .9rem 1.6rem; background: #c0392b; color: #fff; border-radius: 8px; text-decoration: none; font-weight: 700; border: 3px solid #3b2a1a; }
-    .btn:hover, .btn:focus-visible { background: #a93226; }
-    main { max-width: 960px; margin: 0 auto; padding: 2rem 1rem; }
-    section { margin-bottom: 3rem; }
-    .cards { list-style: none; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-    .cards li { background: #fff; border: 3px solid #8b5a2b; border-radius: 10px; padding: 1rem; }
-    .cards h3 { margin-top: 0; }
-    a { color: #c0392b; }
-    footer { text-align: center; padding: 2rem 1rem; font-size: .85rem; opacity: .7; }
-  `,
+  imports: [MatToolbarModule, MatButtonModule, MatCardModule, MatIconModule, MatTabsModule, MatChipsModule, MatExpansionModule],
+  templateUrl: './app.html',
+  styleUrl: './app.css',
 })
 export class App {
-  // ponytail: conteúdo estático inline, mover pra JSON/CMS se crescer
-  features = [
-    { title: 'Capture', text: 'Encontre Pokémon pelo Vale e capture arremessando.' },
-    { title: 'Treine e batalhe', text: 'Suba de nível, aprenda golpes oficiais e lute.' },
-    { title: 'Crie no celeiro', text: 'Faça breeding dos seus Pokémon no Barn da fazenda.' },
-    { title: 'Shinies', text: 'Animações normais e shiny, com retratos próprios.' },
+  readonly nexus = 'https://www.nexusmods.com/stardewvalley/mods/50344';
+
+  art = (id: number) => `${SPRITES}/other/official-artwork/${id}.png`;
+  // Sprites animados do Black/White só vão até o #649 e olham pra esquerda.
+  gif = (id: number) => `${SPRITES}/versions/generation-v/black-white/animated/${id}.gif`;
+
+  // ponytail: delay/duração fixos por Pokémon, gerar aleatório se a faixa ficar repetitiva
+  walkers = [
+    { id: 25, name: 'Pikachu', dur: 22, delay: 0 },
+    { id: 1, name: 'Bulbasaur', dur: 30, delay: -8 },
+    { id: 133, name: 'Eevee', dur: 26, delay: -15 },
+    { id: 7, name: 'Squirtle', dur: 34, delay: -22 },
+    { id: 4, name: 'Charmander', dur: 28, delay: -4 },
+    { id: 74, name: 'Geodude', dur: 40, delay: -30 },
   ];
 
-  others = [
-    { name: 'Pokémon Eggventure - Day Care', url: 'https://www.nexusmods.com/stardewvalley/mods/49098', text: 'Choque ovos de mais de 1.100 espécies e cace shinies.' },
-    { name: 'StardewPoke (em desenvolvimento)', url: 'https://forums.stardewvalley.net/threads/looking-for-devs-stardewpoke-%E2%80%94-a-pok%C3%A9mon-mod-for-stardew-valley-smapi-c-pok%C3%A9mon-showdown-engine.53080/', text: 'Batalhas com a engine do Pokémon Showdown. Ainda não jogável.' },
+  features = [
+    { icon: 'catching_pokemon', title: 'Capture pelo Vale', text: 'Pokémon aparecem em habitats diferentes do Vale e arredores. Mire e arremesse a Poké Ball.' },
+    { icon: 'agriculture', title: 'Ajudantes na fazenda', text: 'Parceiros adequados ajudam com plantações, animais, coleta, pesca, mineração, pomares e covos.' },
+    { icon: 'sports_martial_arts', title: 'Treine e batalhe', text: 'Escolha golpes, fortaleça o vínculo, evolua e enfrente os moradores e os Pokémon deles.' },
+    { icon: 'egg', title: 'Crie no celeiro', text: 'Pokémon compatíveis fazem breeding no Barn. Inclui formas shiny com animação própria.' },
+    { icon: 'auto_stories', title: 'Diário do Parceiro', text: 'Gerencie a party, golpes, políticas de trabalho, progresso e busque Pokémon.' },
+    { icon: 'groups', title: 'Multiplayer', text: 'Cada fazendeiro tem a própria party, parceiro ativo, progresso e armazenamento.' },
+  ];
+
+  // ponytail: guia temático (lógica dos tipos) sobre a lista oficial de tarefas do mod; trocar por dados do mod se o autor publicar a tabela
+  types = [
+    { name: 'Grama', color: '#5fbd58', icon: 'eco', mons: [1, 43, 928], tasks: ['Plantações', 'Pomares'],
+      text: 'Quem entende de planta cuida da plantação. A família Smoliv (Smoliv, Dolliv, Arboliva) chegou na última atualização do mod, com evolução no nível 25 e 35.' },
+    { name: 'Água', color: '#539ddf', icon: 'water_drop', mons: [7, 54, 279], tasks: ['Pesca', 'Covos'],
+      text: 'Nadadores ficam de olho nos covos e acompanham você na pesca. O Pelipper, que dá nome ao mod, é Água/Voador.' },
+    { name: 'Pedra e Terra', color: '#b8a36b', icon: 'landscape', mons: [74, 50, 95], tasks: ['Mineração'],
+      text: 'Cavadores e Pokémon de pedra são a escolha natural para descer nas Minas e quebrar rocha.' },
+    { name: 'Fogo', color: '#f08030', icon: 'local_fire_department', mons: [4, 58, 77], tasks: ['Batalhas', 'Minas'],
+      text: 'Bons atacantes para escoltar você nas Minas e encarar as batalhas contra os moradores.' },
+    { name: 'Inseto', color: '#a8b820', icon: 'bug_report', mons: [10, 415, 46], tasks: ['Coleta', 'Pomares'],
+      text: 'Pequenos e curiosos: combinam com forrageamento pelo mato e com as árvores frutíferas.' },
+    { name: 'Normal', color: '#a8a878', icon: 'pets', mons: [133, 241, 52], tasks: ['Animais'],
+      text: 'Pokémon tranquilos que convivem bem com as vacas, galinhas e cabras do celeiro e do galinheiro.' },
+    { name: 'Elétrico', color: '#e8c020', icon: 'bolt', mons: [25, 179, 81], tasks: ['Batalhas', 'Companhia'],
+      text: 'O parceiro clássico pra andar ao seu lado pela cidade e mandar bem nos duelos.' },
+  ];
+
+  steps = [
+    { icon: 'download', title: 'Instale', text: 'Stardew Valley 1.6, SMAPI 4.0+ e SpaceCore 1.28.4+. Generic Mod Config Menu é opcional.' },
+    { icon: 'cottage', title: 'Saia de casa', text: 'A Marnie te ajuda a escolher como começar a jornada.' },
+    { icon: 'sports_baseball', title: 'Segure G', text: 'Mire e solte para arremessar a Poké Ball. No controle, segure o gatilho esquerdo.' },
+    { icon: 'menu_book', title: 'Aperte P', text: 'Abre o Diário do Parceiro. O manda, troca ou recolhe o parceiro; [ e ] trocam de membro.' },
+    { icon: 'egg_alt', title: 'Aperte B no celeiro', text: 'Abre o menu de breeding dentro do Barn (RB no controle).' },
+  ];
+
+  faq = [
+    { q: 'Funciona no meu save atual?', a: 'Sim. O mod funciona em saves novos ou existentes.' },
+    { q: 'Dá pra jogar com amigos?', a: 'Sim. O host controla os encontros selvagens; os outros jogadores capturam, treinam, batalham, criam e trocam normalmente.' },
+    { q: 'Funciona no controle?', a: 'Sim. Gatilho esquerdo para arremessar, R3 seleciona o próximo membro e L3 manda ou recolhe o parceiro.' },
+    { q: 'É compatível com Stardew Valley Expanded?', a: 'Sim. SVE, East Scarp e Ridgeside Village são opcionais e adicionam encontros regionais e parceiros de moradores.' },
+    { q: 'Tem no celular ou console?', a: 'Não. É um mod de PC (SMAPI).' },
   ];
 }

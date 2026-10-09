@@ -1,0 +1,119 @@
+<mat-toolbar class="nav">
+  <a class="brand" href="#topo">Pelipper Town</a>
+  <span class="spacer"></span>
+  <nav>
+    <a mat-button href="#mod">O mod</a>
+    <a mat-button href="#tipos">Tipos</a>
+    <a mat-button href="#comecar">Começar</a>
+    <a mat-button href="#faq">FAQ</a>
+  </nav>
+  <a mat-flat-button [href]="nexus" target="_blank" rel="noopener">Baixar</a>
+</mat-toolbar>
+
+<header id="topo" class="hero">
+  <img class="flyer" [src]="gif(279)" alt="" aria-hidden="true">
+  <div class="hero-in">
+    <p class="kicker">Mod gratuito · Stardew Valley 1.6</p>
+    <h1>Pokémon chegaram<br>a Pelican Town</h1>
+    <p class="lead">Capture no Vale, treine, batalhe com os moradores e coloque seus parceiros pra trabalhar na fazenda.</p>
+    <div class="cta">
+      <a mat-flat-button [href]="nexus" target="_blank" rel="noopener"><mat-icon>download</mat-icon> Baixar no Nexus</a>
+      <a mat-stroked-button href="#tipos">Quem ajuda em quê?</a>
+    </div>
+  </div>
+</header>
+
+<section id="mod" class="band">
+  <div class="wrap">
+    <h2>O que dá pra fazer</h2>
+    <div class="grid">
+      @for (f of features; track f.title) {
+        <mat-card appearance="outlined">
+          <mat-card-header>
+            <mat-icon mat-card-avatar class="ic">{{ f.icon }}</mat-icon>
+            <mat-card-title>{{ f.title }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content><p>{{ f.text }}</p></mat-card-content>
+        </mat-card>
+      }
+    </div>
+  </div>
+</section>
+
+<section id="tipos" class="band alt">
+  <div class="wrap">
+    <h2>Cada tipo no seu trabalho</h2>
+    <p class="sub">
+      O mod tem tarefas de fazenda e você escolhe quem faz o quê nas <em>políticas de trabalho</em> do Diário do Parceiro.
+      As combinações abaixo são um guia pela lógica dos tipos, não regras oficiais.
+    </p>
+    <mat-tab-group mat-stretch-tabs="false" animationDuration="200ms">
+      @for (t of types; track t.name) {
+        <mat-tab>
+          <ng-template mat-tab-label><mat-icon [style.color]="t.color">{{ t.icon }}</mat-icon>&nbsp;{{ t.name }}</ng-template>
+          <div class="type" [style.--c]="t.color">
+            <div class="mons">
+              @for (id of t.mons; track id) { <img [src]="art(id)" [alt]="'Pokémon #' + id" loading="lazy"> }
+            </div>
+            <div>
+              <h3>{{ t.name }}</h3>
+              <p>{{ t.text }}</p>
+              <mat-chip-set aria-label="Tarefas sugeridas">
+                @for (task of t.tasks; track task) { <mat-chip>{{ task }}</mat-chip> }
+              </mat-chip-set>
+            </div>
+          </div>
+        </mat-tab>
+      }
+    </mat-tab-group>
+  </div>
+</section>
+
+<section id="comecar" class="band">
+  <div class="wrap">
+    <h2>Primeiros passos</h2>
+    <ol class="steps">
+      @for (s of steps; track s.title; let i = $index) {
+        <li>
+          <span class="num">{{ i + 1 }}</span>
+          <mat-icon>{{ s.icon }}</mat-icon>
+          <h3>{{ s.title }}</h3>
+          <p>{{ s.text }}</p>
+        </li>
+      }
+    </ol>
+  </div>
+</section>
+
+<section id="faq" class="band alt">
+  <div class="wrap narrow">
+    <h2>Perguntas frequentes</h2>
+    <mat-accordion>
+      @for (f of faq; track f.q) {
+        <mat-expansion-panel>
+          <mat-expansion-panel-header><mat-panel-title>{{ f.q }}</mat-panel-title></mat-expansion-panel-header>
+          <p>{{ f.a }}</p>
+        </mat-expansion-panel>
+      }
+    </mat-accordion>
+  </div>
+</section>
+
+<section class="band final">
+  <div class="wrap">
+    <h2>Bora encher a fazenda?</h2>
+    <a mat-flat-button [href]="nexus" target="_blank" rel="noopener"><mat-icon>download</mat-icon> Baixar Pelipper Town</a>
+    <p class="more">
+      Também vale ver: <a href="https://www.nexusmods.com/stardewvalley/mods/49098" target="_blank" rel="noopener">Pokémon Eggventure - Day Care</a>
+      (choque ovos de mais de 1.100 espécies).
+    </p>
+  </div>
+</section>
+
+<footer>Fan page não oficial. Stardew Valley © ConcernedApe · Pokémon © Nintendo / Game Freak · Sprites via PokéAPI.</footer>
+
+<div class="field" aria-hidden="true">
+  @for (w of walkers; track w.id) {
+    <img class="walker" [src]="gif(w.id)" alt="" [style.animation-duration.s]="w.dur" [style.animation-delay.s]="w.delay">
+  }
+</div>
