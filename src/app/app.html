@@ -4,28 +4,36 @@
   <nav>
     <a mat-button href="#mod">O mod</a>
     <a mat-button href="#tipos">Tipos</a>
-    <a mat-button href="#comecar">Começar</a>
-    <a mat-button href="#faq">FAQ</a>
+    <a mat-button href="#jogando">Jogando</a>
+    <a mat-button href="#outros">Outros mods</a>
   </nav>
-  <a mat-flat-button [href]="nexus" target="_blank" rel="noopener">Baixar</a>
 </mat-toolbar>
 
 <header id="topo" class="hero">
+  <div class="stars" aria-hidden="true"></div>
+  <div class="moon" aria-hidden="true"></div>
   <img class="flyer" [src]="gif(279)" alt="" aria-hidden="true">
   <div class="hero-in">
-    <p class="kicker">Mod gratuito · Stardew Valley 1.6</p>
-    <h1>Pokémon chegaram<br>a Pelican Town</h1>
-    <p class="lead">Capture no Vale, treine, batalhe com os moradores e coloque seus parceiros pra trabalhar na fazenda.</p>
-    <div class="cta">
-      <a mat-flat-button [href]="nexus" target="_blank" rel="noopener"><mat-icon>download</mat-icon> Baixar no Nexus</a>
-      <a mat-stroked-button href="#tipos">Quem ajuda em quê?</a>
-    </div>
+    <p class="kicker">Stardew Valley · Mods</p>
+    <h1>Quando Pokémon<br>chegou ao Vale</h1>
+    <p class="lead">
+      O Pelipper Town coloca Pokémon em Pelican Town: dá pra capturar, treinar, batalhar com os moradores
+      e dividir o trabalho da fazenda. Esta página mostra o que o mod faz e como cada tipo se encaixa na rotina do Vale.
+    </p>
+  </div>
+  <div class="cast" aria-hidden="true">
+    <span class="npc idle" style="--sheet: url(npc/Marnie.png)"></span>
+    <img [src]="gif(241)" alt="">
+    <span class="npc idle" style="--sheet: url(npc/Lewis.png)"></span>
+    <img [src]="gif(25)" alt="">
+    <span class="npc idle" style="--sheet: url(npc/Penny.png)"></span>
   </div>
 </header>
 
 <section id="mod" class="band">
   <div class="wrap">
-    <h2>O que dá pra fazer</h2>
+    <p class="eyebrow">O mod</p>
+    <h2>O que muda no Vale</h2>
     <div class="grid">
       @for (f of features; track f.title) {
         <mat-card appearance="outlined">
@@ -42,10 +50,11 @@
 
 <section id="tipos" class="band alt">
   <div class="wrap">
+    <p class="eyebrow">Tipos</p>
     <h2>Cada tipo no seu trabalho</h2>
     <p class="sub">
-      O mod tem tarefas de fazenda e você escolhe quem faz o quê nas <em>políticas de trabalho</em> do Diário do Parceiro.
-      As combinações abaixo são um guia pela lógica dos tipos, não regras oficiais.
+      O mod tem tarefas de fazenda, e você decide quem faz o quê nas <em>políticas de trabalho</em> do Diário do Parceiro.
+      As combinações abaixo seguem a lógica dos tipos e não são regras oficiais.
     </p>
     <mat-tab-group mat-stretch-tabs="false" animationDuration="200ms">
       @for (t of types; track t.name) {
@@ -53,12 +62,12 @@
           <ng-template mat-tab-label><mat-icon [style.color]="t.color">{{ t.icon }}</mat-icon>&nbsp;{{ t.name }}</ng-template>
           <div class="type" [style.--c]="t.color">
             <div class="mons">
-              @for (id of t.mons; track id) { <img [src]="art(id)" [alt]="'Pokémon #' + id" loading="lazy"> }
+              @for (id of t.mons; track id) { <img [src]="art(id)" alt="" loading="lazy"> }
             </div>
             <div>
               <h3>{{ t.name }}</h3>
               <p>{{ t.text }}</p>
-              <mat-chip-set aria-label="Tarefas sugeridas">
+              <mat-chip-set aria-label="Tarefas que combinam">
                 @for (task of t.tasks; track task) { <mat-chip>{{ task }}</mat-chip> }
               </mat-chip-set>
             </div>
@@ -69,26 +78,29 @@
   </div>
 </section>
 
-<section id="comecar" class="band">
+<section id="jogando" class="band">
   <div class="wrap">
-    <h2>Primeiros passos</h2>
-    <ol class="steps">
-      @for (s of steps; track s.title; let i = $index) {
-        <li>
-          <span class="num">{{ i + 1 }}</span>
-          <mat-icon>{{ s.icon }}</mat-icon>
-          <h3>{{ s.title }}</h3>
-          <p>{{ s.text }}</p>
-        </li>
-      }
-    </ol>
-  </div>
-</section>
+    <p class="eyebrow">Na prática</p>
+    <h2>Como é jogar</h2>
+    <div class="split">
+      <div>
+        <p>
+          Ao sair de casa pela primeira vez, a <strong>Marnie</strong> apresenta as opções de começo. Depois disso, os Pokémon
+          aparecem pelo Vale conforme o habitat, e a captura é por arremesso, sem tela de batalha separada.
+        </p>
+        <p>
+          Você anda com um parceiro ativo e o resto da party fica guardado. Pelo diário, você define quem ajuda em cada tarefa,
+          quais golpes cada um usa e acompanha a evolução de cada parceiro.
+        </p>
+      </div>
+      <ul class="keys">
+        @for (c of controls; track c.key) {
+          <li><kbd>{{ c.key }}</kbd><span>{{ c.text }}</span></li>
+        }
+      </ul>
+    </div>
 
-<section id="faq" class="band alt">
-  <div class="wrap narrow">
-    <h2>Perguntas frequentes</h2>
-    <mat-accordion>
+    <mat-accordion class="faq">
       @for (f of faq; track f.q) {
         <mat-expansion-panel>
           <mat-expansion-panel-header><mat-panel-title>{{ f.q }}</mat-panel-title></mat-expansion-panel-header>
@@ -99,21 +111,42 @@
   </div>
 </section>
 
-<section class="band final">
+<section id="outros" class="band alt">
   <div class="wrap">
-    <h2>Bora encher a fazenda?</h2>
-    <a mat-flat-button [href]="nexus" target="_blank" rel="noopener"><mat-icon>download</mat-icon> Baixar Pelipper Town</a>
-    <p class="more">
-      Também vale ver: <a href="https://www.nexusmods.com/stardewvalley/mods/49098" target="_blank" rel="noopener">Pokémon Eggventure - Day Care</a>
-      (choque ovos de mais de 1.100 espécies).
-    </p>
+    <p class="eyebrow">Comunidade</p>
+    <h2>Outros mods Pokémon no Vale</h2>
+    <div class="grid">
+      @for (o of others; track o.name) {
+        <mat-card appearance="outlined">
+          <mat-card-header><mat-card-title>{{ o.name }}</mat-card-title></mat-card-header>
+          <mat-card-content><p>{{ o.text }}</p></mat-card-content>
+          @if (o.url) {
+            <mat-card-actions><a mat-button [href]="o.url" target="_blank" rel="noopener">Ler mais</a></mat-card-actions>
+          }
+        </mat-card>
+      }
+    </div>
   </div>
 </section>
 
-<footer>Fan page não oficial. Stardew Valley © ConcernedApe · Pokémon © Nintendo / Game Freak · Sprites via PokéAPI.</footer>
+<footer>
+  <div class="wrap">
+    <h3>Fontes</h3>
+    <ul>
+      @for (s of sources; track s.url) { <li><a [href]="s.url" target="_blank" rel="noopener">{{ s.name }}</a></li> }
+    </ul>
+    <p class="legal">
+      Fan page não oficial. Stardew Valley © ConcernedApe · Pokémon © Nintendo / Game Freak / Creatures.
+      Sprites de Pokémon via PokéAPI.
+    </p>
+  </div>
+</footer>
 
 <div class="field" aria-hidden="true">
-  @for (w of walkers; track w.id) {
-    <img class="walker" [src]="gif(w.id)" alt="" [style.animation-duration.s]="w.dur" [style.animation-delay.s]="w.delay">
+  @for (w of walkers; track w.npc) {
+    <div class="walker" [style.animation-duration.s]="w.dur" [style.animation-delay.s]="w.delay">
+      <span class="npc" [style.--sheet]="'url(npc/' + w.npc + '.png)'"></span>
+      <img [src]="gif(w.mon)" alt="">
+    </div>
   }
 </div>
